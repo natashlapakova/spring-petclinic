@@ -12,29 +12,29 @@ pipeline {
                    }
        }
 
-       stage('Test') {
+       stage('Test and SonarQube analysis') {
            steps {
                bat 'mvn test'
+                withSonarQubeEnv('SonarQube-6.7.7') {
+                   bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+                 }
            }
             post {
                 always {
-                junit 'target/surefire-reports/**/*.xml'
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+                failure {
+                    echo 'This will run only if failed'
                 }
             }
        }
 
-       stage('SonarQube analysis') {
-           steps{
-                   withSonarQubeEnv('SonarQube-6.7.7') {
-                     bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
-                   }
-               }
-         }
-
-        stage('Deploy') {
+        stage('Build') {
             steps {
-                echo 'Deploying....'
-            }
+               script {
+                         env.currentVersion = '1.0.0' + currentBuild.number
+                         currentBuild.displayName = env.currentVersion
+                       }
         }
     }
 }
