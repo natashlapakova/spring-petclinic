@@ -1,29 +1,32 @@
 pipeline {
     agent any
 
+ tools {
+        maven 'Maven-3.6.1'
+    }
     stages {
-        stage('Build') {
-            steps {
-                echo 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
+       stage('Complile') {
+                   steps {
+                       bat 'mvn clean compile'
+                   }
+               }
+                stage('Test') {
+                   steps {
 
-                echo 'mvn test'
-            }
-        post {
-               always {
-                         junit 'junit-test/*.xml'
-                      }
-            }
-        }
+                       bat 'mvn test'
+                   }
+                    post {
+                        always {
+                        junit 'target/surefire-reports/**/*.xml'
+                     }
+                    }
+               }
        stage('SonarQube analysis') {
-           withSonarQubeEnv('SonarQube') {
-             // requires SonarQube Scanner for Maven 3.2+
-             echo 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+           withSonarQubeEnv('SonarQube-6.7.7') {
+             bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
            }
          }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
