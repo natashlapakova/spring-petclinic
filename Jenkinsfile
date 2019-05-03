@@ -3,7 +3,7 @@ pipeline {
 
  tools {
         maven 'Maven-3.6.1_AUTO'
-        jdk 'JDK8_AUTO'
+        jdk 'JDK8_LOCAL'
     }
     stages {
        stage('Complile') {
