@@ -2,7 +2,8 @@ pipeline {
     agent any
 
  tools {
-        maven 'Maven-3.6.1'
+        maven 'Maven-3.6.1_AUTO'
+        jdk 'JDK8_AUTO'
     }
     stages {
        stage('Complile') {
