@@ -34,9 +34,12 @@ pipeline {
 
         stage('Build') {
             steps {
-               VersionNumber projectStartDate: '2019-04-01', 
-                             versionNumberString: '${BUILD_YEAR}-${BUILD_DAY}-${BUILDS_TODAY}-${BUILDS_THIS_YEAR}',
-                             versionPrefix: 'Pet', worstResultForIncrement: 'SUCCESS'
+                script{
+                    currentBuild.displayName = VersionNumber  versionNumberString: '${BUILD_YEAR}-${BUILD_DAY}-${BUILDS_TODAY}-${BUILDS_THIS_YEAR}',
+                        projectStartDate: '2019-04-01',                       
+                        versionPrefix: 'Pet', worstResultForIncrement: 'SUCCESS'
+                }
+               
         }
     }
    }
