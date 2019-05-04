@@ -27,7 +27,11 @@ pipeline {
                     junit 'target/surefire-reports/**/*.xml'
                 }
                 failure {
-                    echo 'This will run only if failed'
+                     emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
+                        body: '${SCRIPT, template="groovy-html.template"}', 
+                        mimeType: 'text/html',
+                        recipientProviders: [culprits()],
+                        subject: '[Jenkins job failed] ${jobName}'
                 }
             }
        }
