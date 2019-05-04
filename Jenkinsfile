@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        skipStagesAfterUnstable()
+    }
 
  tools {
         maven 'Maven-3.6.1_AUTO'
@@ -31,10 +34,9 @@ pipeline {
 
         stage('Build') {
             steps {
-               script {
-                         env.currentVersion = '1.0.0' + currentBuild.number
-                         currentBuild.displayName = env.currentVersion
-                       }
+               VersionNumber projectStartDate: '2019-04-01', 
+                             versionNumberString: '${BUILD_YEAR}-${BUILD_DAY}-${BUILDS_TODAY}-${BUILDS_THIS_YEAR}',
+                             versionPrefix: 'Pet', worstResultForIncrement: 'SUCCESS'
         }
     }
    }
