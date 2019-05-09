@@ -36,7 +36,7 @@ pipeline {
                         body: '${SCRIPT, template="groovy-html.template"}', 
                         mimeType: 'text/html',
                         recipientProviders: [culprits()],
-                        subject: "Failed Job: '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+                        subject: "Failed Job: 'currentBuild.displayName ${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
                 }
             }
        }
