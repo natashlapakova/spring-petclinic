@@ -31,7 +31,7 @@ pipeline {
                         body: '${SCRIPT, template="groovy-html.template"}', 
                         mimeType: 'text/html',
                         recipientProviders: [culprits()], 
-                        subject: '[Jenkins job failed] ${jobName}'
+                        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
                 }
             }
        }
@@ -41,7 +41,7 @@ pipeline {
                 script{
                     currentBuild.displayName = VersionNumber  versionNumberString: '${BUILD_YEAR}-${BUILD_DAY}-${BUILDS_TODAY}-${BUILDS_THIS_YEAR}',
                         projectStartDate: '2019-04-01',                       
-                        versionPrefix: 'Pet', worstResultForIncrement: 'SUCCESS'
+                        versionPrefix: 'Pet', worstResultForIncrement: 'FAILURE'
                 }
                
         }
