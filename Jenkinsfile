@@ -35,7 +35,8 @@ pipeline {
                      emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
                         body: '${SCRIPT, template="groovy-html.template"}', 
                         mimeType: 'text/html',
-                        recipientProviders: [culprits()]
+                        recipientProviders: [culprits()],
+                        subject: "Failed Job: '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
                 }
             }
        }
