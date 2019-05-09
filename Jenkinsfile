@@ -11,6 +11,11 @@ pipeline {
     stages {
        stage('Complile') {
                    steps {
+                    script{
+                            currentBuild.displayName = VersionNumber  versionNumberString: '${BUILD_YEAR}-${BUILD_DAY}-${BUILDS_TODAY}-${BUILDS_THIS_YEAR}',
+                            projectStartDate: '2019-04-01',
+                            versionPrefix: 'Pet', worstResultForIncrement: 'FAILURE'
+                           }
                        bat 'mvn clean compile'
                    }
        }
@@ -30,19 +35,15 @@ pipeline {
                      emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
                         body: '${SCRIPT, template="groovy-html.template"}', 
                         mimeType: 'text/html',
-                        recipientProviders: [culprits()], 
-                        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+                        recipientProviders: [culprits()]
                 }
             }
        }
 
-        stage('Build') {
+        stage('Deploy') {
             steps {
-                script{
-                    currentBuild.displayName = VersionNumber  versionNumberString: '${BUILD_YEAR}-${BUILD_DAY}-${BUILDS_TODAY}-${BUILDS_THIS_YEAR}',
-                        projectStartDate: '2019-04-01',                       
-                        versionPrefix: 'Pet', worstResultForIncrement: 'FAILURE'
-                }
+            echo 'Deploying app'
+
                
         }
     }
